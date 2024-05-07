@@ -54,17 +54,21 @@ function shinjuku_get_shipping_method_description($label)
     $description = '';
 
     if (strpos($label, 'Chilled') !== false) {
-        $description = 'Will be shipped  in a normal cool box to preserve freshness, with dry and frozen items together.';
+        // $description = 'Will be shipped  in a normal cool box to preserve freshness, with dry and frozen items together.';
+        $description = '';
     }
 	// TODO: check contains
     else if (strpos($label, 'Only Deep Frozen') !== false) {
-        $description = 'Deep-frozen shipping ensures items stay frozen until delivery. Frozen and dry items are shipped together.';
+        // $description = 'Deep-frozen shipping ensures items stay frozen until delivery. Frozen and dry items are shipped together.';
+        $description = '';
     }
 	else if (strpos($label, 'Separate Deep Frozen') !== false) {
-        $description = 'Deep-frozen shipping ensures items stay frozen until delivery. Frozen and dry items are shipped separately.';
+        // $description = 'Deep-frozen shipping ensures items stay frozen until delivery. Frozen and dry items are shipped separately.';
+        $description = '';
     } 
     else if (strpos($label, 'Dry') !== false) {
-        $description = 'Items will be shipped in Dry Boxes.';
+        // $description = 'Items will be shipped in Dry Boxes.';
+        $description = '';
     } 
     else{
         $description = 'N/A';
