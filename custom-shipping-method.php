@@ -3,8 +3,8 @@
 /**
  * Plugin Name: Custom Shipping Method
  * Description: Custom shipping method for WooCommerce.
- * Version: 1.0.1
- * Author: Shajid Hassan
+ * Version: 1.0.2
+ * Author: Mirailit Limited
  */
 
 
