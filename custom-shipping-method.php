@@ -119,7 +119,6 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                         } else {
                             $dry_weight += $item_weight;
                         }
-
                     }
 
                     // Determine destination region
@@ -140,22 +139,20 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 
                             // ========== Chilled Shipping ==========
 
-                            if($dry_weight > 0) {
+                            if ($dry_weight > 0) {
                                 // ========== Mixed Shipping ==========
                                 // Calculate shipping cost
                                 $additional_weight = max($total_weight - 24, 0); // Weight above the base 24kg
                                 $additional_units = ceil($additional_weight / 24);
                                 $shipping_cost = $region_rate['chilled_base'] + ($additional_units * $region_rate['chilled_additional']);
-                                $shipping_title = 'Chilled Shipping (Per 24Kg)(Mixed)' ;
+                                $shipping_title = 'Normal Frozen Japan Post (Mixed)(Per 24Kg)';
+                            } else {
+                                // ========== Only Chilled Shipping ==========
+                                $additional_weight = max($total_weight - 24, 0); // Weight above the base 24kg
+                                $additional_units = ceil($additional_weight / 24);
+                                $shipping_cost = $region_rate['chilled_base'] + ($additional_units * $region_rate['chilled_additional']);
+                                $shipping_title = 'Normal Frozen Japan Post (Mixed)(Per 24Kg)';
                             }
-                            else{
-                            // ========== Only Chilled Shipping ==========
-                            $additional_weight = max($total_weight - 24, 0); // Weight above the base 24kg
-                            $additional_units = ceil($additional_weight / 24);
-                            $shipping_cost = $region_rate['chilled_base'] + ($additional_units * $region_rate['chilled_additional']);
-                            $shipping_title = 'Chilled Shipping (Per 24Kg)' ;
-                            }
-                            
                         } else {
                             // ========== Only Dry Shipping ==========
                             // Calculate shipping cost
@@ -166,10 +163,7 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                             // Modify the title to include the state name
                             // $shipping_title = 'Dry Shipping (Per 25Kg)' . ' (' . $state_name . ')';
                             $shipping_title = 'Dry Shipping (Per 25Kg)';
-                        
                         }
-
-
                     } else {
                         // Default or fallback shipping cost if region is not in the list (If Outside Japan or Error)
                         return;
@@ -185,7 +179,6 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                         )
                     );
                 }
-
             }
         }
     }
@@ -285,12 +278,16 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                         } else {
                             $dry_weight += $item_weight;
                         }
-
                     }
 
                     // Determine destination region
 
                     $destination = $package['destination']['state']; // Assuming state contains the prefecture/region
+
+                    // Skip calculation and rate addition if destination state code JP47
+                    if ($destination === 'JP47') {
+                        return;
+                    }
 
                     global $state_names; // Use the global keyword to access the array
                     global $shipping_rates;
@@ -306,15 +303,14 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                             // If dry items in cart show seperate price
                             if ($dry_weight > 0) {
 
-                                // ========== Seperate Frozen Shipping ==========
-                                // Calculate shipping cost
-                                $additional_weight = max($total_weight - 20, 0); // Weight above the base 20kg
-                                $additional_units = ceil($additional_weight / 20);
-                                $shipping_cost = $region_rate['frozen_seperate_base'] + ($additional_units * $region_rate['frozen_seperate_additional']);
+                                // // ========== Seperate Frozen Shipping ==========
+                                // // Calculate shipping cost
+                                // $additional_weight = max($total_weight - 20, 0); // Weight above the base 20kg
+                                // $additional_units = ceil($additional_weight / 20);
+                                // $shipping_cost = $region_rate['frozen_seperate_base'] + ($additional_units * $region_rate['frozen_seperate_additional']);
 
-                                // $shipping_title = 'Separate Deep Frozen Shipping (Per 20Kg)' . ' (' . $state_name . ')';
-                                $shipping_title = 'Separate Deep Frozen Shipping (Per 20Kg)';
-                            } else {
+                                // // $shipping_title = 'Separate Deep Frozen Shipping (Per 20Kg)' . ' (' . $state_name . ')';
+                                // $shipping_title = 'Separate Deep Frozen Shipping (Per 20Kg)';
 
                                 // ========== Only Frozen Shipping ==========
                                 // Calculate shipping cost
@@ -323,13 +319,13 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                                 $shipping_cost = $region_rate['frozen_base'] + ($additional_units * $region_rate['frozen_additional']);
 
                                 // $shipping_title = 'Only Deep Frozen Shipping (Per 20Kg)' . ' (' . $state_name . ')';
-                                $shipping_title = 'Only Deep Frozen Shipping (Per 20Kg)';
+                                $shipping_title = 'Deep Frozen -18° C Sagawa (Mixed)(Per 20Kg)';
+                            } else {
+                                return;
                             }
-
                         } else {
                             return;
                         }
-
                     } else {
                         return;
                     }
@@ -344,8 +340,6 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                         )
                     );
                 }
-
-
             }
         }
     }
@@ -366,10 +360,4 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
         return $methods;
     }
     add_filter('woocommerce_shipping_methods', 'add_custom_shipping_method');
-
-
 }
-
-
-
-

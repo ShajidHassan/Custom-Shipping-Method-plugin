@@ -8,11 +8,11 @@ if (!defined('ABSPATH')) {
 //  =================== Dry rates ====================
 // Define base and additional rates for each region
 
-$percent_discount = 0.2; // 20% discount for additional items
+$percent_discount = 0; // No discount now. Set 0.2 for 20% discount for additional items
 
 // Region 1: Tokyo
 $dry_base_r1 = 1100;
-$dry_additional_r1 = $dry_base_r1 - ($dry_base_r1 * $percent_discount); 
+$dry_additional_r1 = $dry_base_r1 - ($dry_base_r1 * $percent_discount);
 // Region 2: Kantou, Tyubu, Hokuriku, Shinetsu, Touhoku
 $dry_base_r2 = 1150;
 $dry_additional_r2 = $dry_base_r2 - ($dry_base_r2 * $percent_discount);
@@ -31,7 +31,7 @@ $dry_additional_r6 = $dry_base_r6 - ($dry_base_r6 * $percent_discount);
 
 //  =================== Chilled rates ====================
 // Chilled base and additional
- // Region 1: Tokyo
+// Region 1: Tokyo
 $chilled_base_r1 = 1450;
 $chilled_additional_r1 = $chilled_base_r1 - ($chilled_base_r1 * $percent_discount);
 // Region 2: Kantou, Tyubu, Hokuriku, Shinetsu, Touhoku
@@ -53,20 +53,20 @@ $chilled_additional_r6 = $chilled_base_r6 - ($chilled_base_r6 * $percent_discoun
 
 //  =================== Frozen rates ====================
 // Frozen base and additional
- // Region 1: Tokyo
-$frozen_base_r1 = 3450;
+// Region 1: Tokyo
+$frozen_base_r1 = 3060;
 $frozen_additional_r1 = $frozen_base_r1 - ($frozen_base_r1 * $percent_discount);
 // Region 2: Kantou, Tyubu, Hokuriku, Shinetsu, Touhoku
-$frozen_base_r2 = 3500;
+$frozen_base_r2 = 3060;
 $frozen_additional_r2 = $frozen_base_r2 - ($frozen_base_r2 * $percent_discount);
 // Region 3: Kansai
-$frozen_base_r3 = 3500;
+$frozen_base_r3 = 3190;
 $frozen_additional_r3 = $frozen_base_r3 - ($frozen_base_r3 * $percent_discount);
 // Region 4: Tyugoku, Shikoku
-$frozen_base_r4 = 3500;
+$frozen_base_r4 = 3320;
 $frozen_additional_r4 = $frozen_base_r4 - ($frozen_base_r4 * $percent_discount);
- // Region 5: Kyusyu, Hokkaido
-$frozen_base_r5 = 3850;
+// Region 5: Kyusyu, Hokkaido
+$frozen_base_r5 = 3590;
 $frozen_additional_r5 = $frozen_base_r5 - ($frozen_base_r5 * $percent_discount);
 // Region 6: Okinawa
 $frozen_base_r6 = 4100;
@@ -74,7 +74,7 @@ $frozen_additional_r6 = $frozen_base_r6 - ($frozen_base_r6 * $percent_discount);
 
 //  =================== Frozen Seperate rates ====================
 // Frozen base and additional
- // Region 1: Tokyo
+// Region 1: Tokyo
 $frozen_seperate_base_r1 = 4550;
 $frozen_seperate_additional_r1 = $frozen_seperate_base_r1 - ($frozen_seperate_base_r1 * $percent_discount);
 // Region 2: Kantou, Tyubu, Hokuriku, Shinetsu, Touhoku
@@ -86,7 +86,7 @@ $frozen_seperate_additional_r3 = $frozen_seperate_base_r3 - ($frozen_seperate_ba
 // Region 4: Tyugoku, Shikoku
 $frozen_seperate_base_r4 = 4800;
 $frozen_seperate_additional_r4 = $frozen_seperate_base_r4 - ($frozen_seperate_base_r4 * $percent_discount);
- // Region 5: Kyusyu, Hokkaido
+// Region 5: Kyusyu, Hokkaido
 $frozen_seperate_base_r5 = 5350;
 $frozen_seperate_additional_r5 = $frozen_seperate_base_r5 - ($frozen_seperate_base_r5 * $percent_discount);
 // Region 6: Okinawa
@@ -97,7 +97,7 @@ $frozen_seperate_additional_r6 = $frozen_seperate_base_r6 - ($frozen_seperate_ba
 $shipping_rates = array(
 
     // ================ Region 1 Tokyo ==================
-// Tokyo
+    // Tokyo
     'JP13' => array(
         'base' => $dry_base_r1, 'additional' => $dry_additional_r1,
         'chilled_base' => $chilled_base_r1, 'chilled_additional' => $chilled_additional_r1,
@@ -108,7 +108,7 @@ $shipping_rates = array(
 
 
     //================= Region 2 Kantou =================
-// Ibaraki, Tochigi, Gunma, Saitama, Chiba, Kanagawa	
+    // Ibaraki, Tochigi, Gunma, Saitama, Chiba, Kanagawa	
     'JP08' => array(
         'base' => $dry_base_r2, 'additional' => $dry_additional_r2,
         'chilled_base' => $chilled_base_r2, 'chilled_additional' => $chilled_additional_r2,
@@ -146,7 +146,7 @@ $shipping_rates = array(
         'frozen_seperate_base' => $frozen_seperate_base_r2, 'frozen_seperate_additional' => $frozen_seperate_additional_r2,
     ),
     // Tyubu
-//  Yamanashi,  Gifu, Shizuoka, Aichi	
+    //  Yamanashi,  Gifu, Shizuoka, Aichi	
     'JP19' => array(
         'base' => $dry_base_r2, 'additional' => $dry_additional_r2,
         'chilled_base' => $chilled_base_r2, 'chilled_additional' => $chilled_additional_r2,
@@ -173,7 +173,7 @@ $shipping_rates = array(
     ),
 
     // Hokuriku
-// Toyama, Ishikawa, Fukui	
+    // Toyama, Ishikawa, Fukui	
     'JP16' => array(
         'base' => $dry_base_r2, 'additional' => $dry_additional_r2,
         'chilled_base' => $chilled_base_r2, 'chilled_additional' => $chilled_additional_r2,
@@ -194,7 +194,7 @@ $shipping_rates = array(
     ),
 
     // Shinetsu
-// Niigata, Nagano
+    // Niigata, Nagano
     'JP15' => array(
         'base' => $dry_base_r2, 'additional' => $dry_additional_r2,
         'chilled_base' => $chilled_base_r2, 'chilled_additional' => $chilled_additional_r2,
@@ -209,7 +209,7 @@ $shipping_rates = array(
     ),
 
     // touhoku
-// Aomori, Iwate, Miyagi, Akita, Yamagata, Fukushima
+    // Aomori, Iwate, Miyagi, Akita, Yamagata, Fukushima
     'JP02' => array(
         'base' => $dry_base_r2, 'additional' => $dry_additional_r2,
         'chilled_base' => $chilled_base_r2, 'chilled_additional' => $chilled_additional_r2,
@@ -251,7 +251,7 @@ $shipping_rates = array(
 
 
     //================= Region 3 Kansai =================
-// Osaka, Kyoto, Hyogo, Nara, Mie, Shiga, Wakayama	
+    // Osaka, Kyoto, Hyogo, Nara, Mie, Shiga, Wakayama	
     'JP26' => array(
         'base' => $dry_base_r3, 'additional' => $dry_additional_r3,
         'chilled_base' => $chilled_base_r3, 'chilled_additional' => $chilled_additional_r3,
@@ -298,8 +298,8 @@ $shipping_rates = array(
     //================= Region 3 Kansai =================X
 
     //================= Region 4 ========================
-// Tyugoku
-// Okayama, Hiroshima, Tottori, Shimane, Yamaguchi	
+    // Tyugoku
+    // Okayama, Hiroshima, Tottori, Shimane, Yamaguchi	
     'JP33' => array(
         'base' => $dry_base_r4, 'additional' => $dry_additional_r4,
         'chilled_base' => $chilled_base_r4, 'chilled_additional' => $chilled_additional_r4,
@@ -326,13 +326,21 @@ $shipping_rates = array(
     ),
 
     // Shikoku
-// Kagawa, Tokushima, Ehime, Kochi	
+    // Kagawa, Tokushima, Ehime, Kochi, Yamaguchi	
     'JP37' => array(
         'base' => $dry_base_r4, 'additional' => $dry_additional_r4,
         'chilled_base' => $chilled_base_r4, 'chilled_additional' => $chilled_additional_r4,
         'frozen_base' => $frozen_base_r4, 'frozen_additional' => $frozen_additional_r4,
         'frozen_seperate_base' => $frozen_seperate_base_r4, 'frozen_seperate_additional' => $frozen_seperate_additional_r4,
     ),
+
+    'JP35' => array(
+        'base' => $dry_base_r4, 'additional' => $dry_additional_r4,
+        'chilled_base' => $chilled_base_r4, 'chilled_additional' => $chilled_additional_r4,
+        'frozen_base' => $frozen_base_r4, 'frozen_additional' => $frozen_additional_r4,
+        'frozen_seperate_base' => $frozen_seperate_base_r4, 'frozen_seperate_additional' => $frozen_seperate_additional_r4,
+    ),
+
     'JP36' => array(
         'base' => $dry_base_r4, 'additional' => $dry_additional_r4,
         'chilled_base' => $chilled_base_r4, 'chilled_additional' => $chilled_additional_r4,
@@ -355,8 +363,8 @@ $shipping_rates = array(
     //================= Region 4 ========================X
 
     //================= Region 5 ========================
-// Kyusyu
-// Fukuoka, Saga, Nagasaki, Kumamoto, Oita, Miyazaki, Kagoshima	
+    // Kyusyu
+    // Fukuoka, Saga, Nagasaki, Kumamoto, Oita, Miyazaki, Kagoshima	
     'JP40' => array(
         'base' => $dry_base_r5, 'additional' => $dry_additional_r5,
         'chilled_base' => $chilled_base_r5, 'chilled_additional' => $chilled_additional_r5,
@@ -411,12 +419,12 @@ $shipping_rates = array(
     //================= Region 5 ========================X
 
     //================= Region 6 ========================
-// Okinawa
+    // Okinawa
     'JP47' => array(
         'base' => $dry_base_r6, 'additional' => $dry_additional_r6,
         'chilled_base' => $chilled_base_r6, 'chilled_additional' => $chilled_additional_r6,
-        'frozen_base' => $frozen_base_r6, 'frozen_additional' => $frozen_additional_r6,
-        'frozen_seperate_base' => $frozen_seperate_base_r6, 'frozen_seperate_additional' => $frozen_seperate_additional_r6,
+        // 'frozen_base' => $frozen_base_r6, 'frozen_additional' => $frozen_additional_r6,
+        // 'frozen_seperate_base' => $frozen_seperate_base_r6, 'frozen_seperate_additional' => $frozen_seperate_additional_r6,
 
     ),
     //================= Region 6 ========================X
