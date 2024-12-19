@@ -145,13 +145,13 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                                 $additional_weight = max($total_weight - 24, 0); // Weight above the base 24kg
                                 $additional_units = ceil($additional_weight / 24);
                                 $shipping_cost = $region_rate['chilled_base'] + ($additional_units * $region_rate['chilled_additional']);
-                                $shipping_title = 'Normal Frozen Japan Post (Mixed)(Per 24Kg)';
+                                $shipping_title = '[Chilled/Normal Freeze] [0~5°C] [Japan Post] [Mixed] [Per 24KG]';
                             } else {
                                 // ========== Only Chilled Shipping ==========
                                 $additional_weight = max($total_weight - 24, 0); // Weight above the base 24kg
                                 $additional_units = ceil($additional_weight / 24);
                                 $shipping_cost = $region_rate['chilled_base'] + ($additional_units * $region_rate['chilled_additional']);
-                                $shipping_title = 'Normal Frozen Japan Post (Mixed)(Per 24Kg)';
+                                $shipping_title = '[Chilled/Normal Freeze] [0~5°C] [Japan Post] [Mixed] [Per 24KG]';
                             }
                         } else {
                             // ========== Only Dry Shipping ==========
@@ -162,7 +162,7 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 
                             // Modify the title to include the state name
                             // $shipping_title = 'Dry Shipping (Per 25Kg)' . ' (' . $state_name . ')';
-                            $shipping_title = 'Dry Shipping (Per 25Kg)';
+                            $shipping_title = '[Dry Shipping] [Japan Post] [Per 25KG]';
                         }
                     } else {
                         // Default or fallback shipping cost if region is not in the list (If Outside Japan or Error)
@@ -303,25 +303,22 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                             // If dry items in cart show seperate price
                             if ($dry_weight > 0) {
 
-                                // // ========== Seperate Frozen Shipping ==========
-                                // // Calculate shipping cost
-                                // $additional_weight = max($total_weight - 20, 0); // Weight above the base 20kg
-                                // $additional_units = ceil($additional_weight / 20);
-                                // $shipping_cost = $region_rate['frozen_seperate_base'] + ($additional_units * $region_rate['frozen_seperate_additional']);
-
-                                // // $shipping_title = 'Separate Deep Frozen Shipping (Per 20Kg)' . ' (' . $state_name . ')';
-                                // $shipping_title = 'Separate Deep Frozen Shipping (Per 20Kg)';
-
-                                // ========== Only Frozen Shipping ==========
+                                // // ========== Frozen Shipping ==========
                                 // Calculate shipping cost
                                 $additional_weight = max($total_weight - 20, 0); // Weight above the base 20kg
                                 $additional_units = ceil($additional_weight / 20);
                                 $shipping_cost = $region_rate['frozen_base'] + ($additional_units * $region_rate['frozen_additional']);
 
                                 // $shipping_title = 'Only Deep Frozen Shipping (Per 20Kg)' . ' (' . $state_name . ')';
-                                $shipping_title = 'Deep Frozen -18° C Sagawa (Mixed)(Per 20Kg)';
+                                $shipping_title = '[Deep Frozen] [-18° C] [Sagawa] [Mixed] [Per 20KG]';
                             } else {
-                                return;
+                                // Calculate shipping cost
+                                $additional_weight = max($total_weight - 20, 0); // Weight above the base 20kg
+                                $additional_units = ceil($additional_weight / 20);
+                                $shipping_cost = $region_rate['frozen_base'] + ($additional_units * $region_rate['frozen_additional']);
+
+                                // $shipping_title = 'Only Deep Frozen Shipping (Per 20Kg)' . ' (' . $state_name . ')';
+                                $shipping_title = '[Deep Frozen] [-18° C] [Sagawa] [Mixed] [Per 20KG]';
                             }
                         } else {
                             return;
@@ -345,13 +342,6 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
     }
     add_action('woocommerce_shipping_init', 'Frozen_Sagawa_Shipping_Method');
 
-    // function add_frozen_sagawa_shipping($methods)
-    // {
-    //     $methods['frozen_sagawa_shipping'] = 'frozen_sagawa_shipping_method';
-    //     return $methods;
-    // }
-    // add_filter('woocommerce_shipping_methods', 'add_frozen_sagawa_shipping');
-
 
     function add_custom_shipping_method($methods)
     {
@@ -360,4 +350,63 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
         return $methods;
     }
     add_filter('woocommerce_shipping_methods', 'add_custom_shipping_method');
+}
+
+
+
+/** Override the shipping label */
+
+add_filter('woocommerce_cart_shipping_method_full_label', 'custom_shipping_method_label', 10, 2);
+
+function custom_shipping_method_label($label, $method)
+{
+    global $woocommerce;
+    $cart_contents = $woocommerce->cart->get_cart();
+    $total_weight = 0;
+    $dry_weight = 0;
+    $chilled_weight = 0;
+    $description = '<a href="/shipping-details/" target="_blank"> (Details)</a>';
+
+    // Calculate weights based on cart contents
+    foreach ($cart_contents as $cart_item_key => $cart_item) {
+        $product = $cart_item['data'];
+        $item_weight = $product->get_weight() * $cart_item['quantity'];
+        $total_weight += $item_weight;
+
+        if (has_term('chilled-shipping', 'product_cat', $product->get_id())) {
+            $chilled_weight += $item_weight;
+        } else {
+            $dry_weight += $item_weight;
+        }
+    }
+
+    // Determine the shipping method and customize label accordingly
+    if ($method->method_id === 'custom_shipping' || $method->method_id === 'custom_shipping_method') {
+        $destination = WC()->customer->get_shipping_state();
+        global $shipping_rates;
+        $region_rate = isset($shipping_rates[$destination]) ? $shipping_rates[$destination] : null;
+
+        if ($region_rate) {
+            if ($chilled_weight > 0) {
+                if ($dry_weight > 0) {
+                    // Mixed Shipping
+                    $label = '<span style="font-size:14px; margin-bottom:10px;"><b>Chilled/Normal Freeze 0~5°C (Mixed)</span></b><br><span style="color: 363232;font-size:12px;">Carrier: Japan Post</span><br><span style="font-size:12px;color: 363232">Price: Per 24Kg</span><br><span style="color:#d51243;font-weight:600;">Charge: ' . wc_price($method->cost + $method->get_shipping_tax())  . $description . '</span>';
+                } else {
+                    // Only Chilled Shipping
+                    $label = '<span style="font-size:14px; margin-bottom:10px;"><b>Chilled/Normal Freeze 0~5°C (Mixed)</span></b><br><span style="color: 363232;font-size:12px;">Carrier: Japan Post</span><br><span style="font-size:12px;color:363232;">Price: Per 24Kg</span><br><span style="color:#d51243;font-weight:600;">Charge: ' . wc_price($method->cost + $method->get_shipping_tax())  . $description . '</span>';
+                }
+            } else {
+                // Only Dry Shipping
+                $label = '<span style="font-size:14px; margin-bottom:10px;"><b>Dry Shipping</span></b><br><span style="color: 363232;font-size:12px;">Carrier: Japan Post</span><br><span style="font-size:12px;color:363232;">Price: Per 25Kg</span><br><span style="color:#d51243;font-weight:600;">Charge: ' . wc_price($method->cost + $method->get_shipping_tax()) . $description  . '</span>';
+            }
+        } else {
+            return $label;
+        }
+    } elseif ($method->method_id === 'frozen_sagawa_shipping' || $method->method_id === 'frozen_sagawa_shipping_method') {
+
+        // Specific case for Frozen Shipping
+        $label = '<span style="font-size:14px; margin-bottom:10px;"><b>Deep Frozen -18° C (Mixed)</span></b><br><span style="color: 363232;font-size:12px;">Carrier: Sagawa</span><br><span style="font-size:12px;color:363232;">Price: Per 20Kg</span><br><span style="color:#d51243;font-weight:600;">Charge: ' . wc_price($method->cost + $method->get_shipping_tax())  . $description . '</span>';
+    }
+
+    return $label;
 }

@@ -54,19 +54,19 @@ $chilled_additional_r6 = $chilled_base_r6 - ($chilled_base_r6 * $percent_discoun
 //  =================== Frozen rates ====================
 // Frozen base and additional
 // Region 1: Tokyo
-$frozen_base_r1 = 3060;
+$frozen_base_r1 = 2400;
 $frozen_additional_r1 = $frozen_base_r1 - ($frozen_base_r1 * $percent_discount);
 // Region 2: Kantou, Tyubu, Hokuriku, Shinetsu, Touhoku
-$frozen_base_r2 = 3060;
+$frozen_base_r2 = 2400;
 $frozen_additional_r2 = $frozen_base_r2 - ($frozen_base_r2 * $percent_discount);
 // Region 3: Kansai
-$frozen_base_r3 = 3190;
+$frozen_base_r3 = 2500;
 $frozen_additional_r3 = $frozen_base_r3 - ($frozen_base_r3 * $percent_discount);
 // Region 4: Tyugoku, Shikoku
-$frozen_base_r4 = 3320;
+$frozen_base_r4 = 2600;
 $frozen_additional_r4 = $frozen_base_r4 - ($frozen_base_r4 * $percent_discount);
 // Region 5: Kyusyu, Hokkaido
-$frozen_base_r5 = 3590;
+$frozen_base_r5 = 2800;
 $frozen_additional_r5 = $frozen_base_r5 - ($frozen_base_r5 * $percent_discount);
 // Region 6: Okinawa
 $frozen_base_r6 = 4100;
